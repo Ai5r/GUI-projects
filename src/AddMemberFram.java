@@ -132,39 +132,28 @@ public class AddMemberFram extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
-        // TODO add your handling code here:
+        String name = nameTextField.getText().trim();
+        String userType = (String) userTypeComoboBox.getSelectedItem();
 
-        String userType="",name="";
-        
-         try {
-            name=nameTextField.getText();
-
-            if(name.isEmpty()){
-                JOptionPane.showMessageDialog(this, "Enter Your Name");
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Something woring with your name");
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter member name");
+            return;
         }
 
-        try {
-            userType=userTypeComoboBox.getItemAt(userTypeComoboBox.getSelectedIndex());
-
-            if(userType.isEmpty()){
-
-                JOptionPane.showMessageDialog(this, "Select User Type");
-            }
-        } catch (Exception e) {
+        if (userType == null || userType.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Select user type");
+            return;
         }
 
-       
-
-        
-
-        if(!(name.isEmpty() )){
-            AddMemberClass tuitionFeeClass=new AddMemberClass();
-            tuitionFeeClass.assignValue(userType, name);
-            tuitionFeeClass.addedmemberonfile();
-            JOptionPane.showMessageDialog(this, "Congress Added Successfully");
+        AddMemberClass tuitionFeeClass = new AddMemberClass();
+        tuitionFeeClass.assignValue(userType.trim(), name);
+        boolean isSaved = tuitionFeeClass.addedmemberonfile();
+        if (isSaved) {
+            JOptionPane.showMessageDialog(this, "Member added successfully");
+            nameTextField.setText("");
+            userTypeComoboBox.setSelectedIndex(0);
+        } else {
+            JOptionPane.showMessageDialog(this, "Could not save member. Please try again.");
         }
     }//GEN-LAST:event_sendButtonActionPerformed
 

@@ -1,5 +1,4 @@
 
-import java.io.FileWriter;
 import java.io.IOException;
 
 /*
@@ -31,14 +30,11 @@ public class RegisterClass {
 
  public void userdatasave(){
         try {
-      FileWriter myWriter = new FileWriter("users.txt",true);
-      myWriter.write("\nName:"+name);
-      myWriter.write("\r\nPhone:"+phoneNo);
-      myWriter.write("\r\nEmail:"+email);
-      myWriter.close();
-      System.out.println("Successfully Register");
-    } catch (IOException e) {
-      System.out.println("A Error occured");
-    }
+            AppDataStore dataStore = new AppDataStore();
+            dataStore.saveRegisteredUser(name, phoneNo, email, password);
+            System.out.println("Successfully Register");
+        } catch (IOException e) {
+            System.out.println("A Error occured");
+        }
    }
 }

@@ -1,5 +1,4 @@
 
-import java.io.FileWriter;
 import java.io.IOException;
 
 
@@ -17,16 +16,15 @@ public class AddMemberClass {
    
    
 
- public void addedmemberonfile(){
+ public boolean addedmemberonfile(){
         try {
-      FileWriter myWriter = new FileWriter("addedmember.txt",true);
-       myWriter.write("\r\nName:"+name);
-      myWriter.write("\nMethod:"+usertype);
-     
-      myWriter.close();
+      AppDataStore dataStore = new AppDataStore();
+      dataStore.saveAddedMember(usertype, name);
       System.out.println("Successfully add new amount");
+      return true;
     } catch (IOException e) {
       System.out.println("A Error found");
+      return false;
     }
    }
     

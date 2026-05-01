@@ -1,5 +1,6 @@
 
 import java.awt.HeadlessException;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /*
@@ -150,31 +151,43 @@ public class PerticipentFram extends javax.swing.JFrame {
     }//GEN-LAST:event_phoneTFActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        //login
-        String name="",phone="";
+        String name = "";
+        String phone = "";
 
         try {
-            name=nameTextField.getText();
-
-            if(name.isEmpty()){
+            name = nameTextField.getText().trim();
+            if (name.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Name cannot be empty");
+                return;
             }
         } catch (HeadlessException e) {
             JOptionPane.showMessageDialog(this, "Somthing Wrong with name");
+            return;
         }
 
         try {
-            phone=phoneTF.getText();
-
-            if(phone.isEmpty()){
+            phone = phoneTF.getText().trim();
+            if (phone.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Phone cannot be empty");
+                return;
+            }
+            if (!phone.matches("[0-9+\\- ]{6,20}")) {
+                JOptionPane.showMessageDialog(this, "Phone format is invalid");
+                return;
             }
         } catch (HeadlessException e) {
             JOptionPane.showMessageDialog(this, "Somthing Wrong with phone");
+            return;
         }
 
-        if(!(name.isEmpty() || phone.isEmpty())){
-            JOptionPane.showMessageDialog(this, "Congress! "+name+" is Added as a perticipent");
+        try {
+            AppDataStore dataStore = new AppDataStore();
+            dataStore.saveParticipant(name, phone);
+            JOptionPane.showMessageDialog(this, "Participant saved successfully");
+            nameTextField.setText("");
+            phoneTF.setText("");
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Could not save participant");
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 

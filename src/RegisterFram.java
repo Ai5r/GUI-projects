@@ -194,84 +194,38 @@ public class RegisterFram extends javax.swing.JFrame {
     }//GEN-LAST:event_emailTFActionPerformed
 
     private void RegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterButtonActionPerformed
-        // TODO add your handling code here:
-        
         RegisterClass registerClass=new RegisterClass();
-        String name="",password="",email="",phone="";
-        Boolean isEmpty=false;
-           
-           
-              try {
-            name=nameTextField.getText();
-            
-            if(name.isEmpty()){
-               JOptionPane.showMessageDialog(this, "Name Cannot be Empty");
-                isEmpty=true;
-            }
-            
-            
-            
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, e.toString());
+        String name = nameTextField.getText().trim();
+        String phone = phoneTextField.getText().trim();
+        String email = emailTF.getText().trim();
+        String password = passwordTextField.getText().trim();
+
+        if (name.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Name cannot be empty");
+            return;
         }
-              
-              
-          
-              
-                   try {
-            phone=phoneTextField.getText();
-            
-            if(phone.isEmpty()){
-               JOptionPane.showMessageDialog(this, "Phone Cannot be Empty");
-                  isEmpty=true;
-            }
-            
-            
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, e.toString());
+        if (phone.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Phone cannot be empty");
+            return;
         }
-                   
-     
-              
-              
-              try {
-            email=emailTF.getText();
-            
-            if(email.isEmpty()){
-               JOptionPane.showMessageDialog(this, "Email Cannot be Empty");
-                  isEmpty=true;
-            }
-            
-            
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, e.toString());
+        if (!phone.matches("[0-9+\\- ]{6,20}")) {
+            JOptionPane.showMessageDialog(this, "Phone format is invalid");
+            return;
         }
-             
-         
-              
-          
-                               try {
-            password=passwordTextField.getText();
-            
-            if(password.isEmpty()){
-               JOptionPane.showMessageDialog(this, "Password Cannot be Empty");
-                  isEmpty=true;
-            }
-            
-            
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, e.toString());
+        if (email.isEmpty() || !email.contains("@")) {
+            JOptionPane.showMessageDialog(this, "Email is invalid");
+            return;
         }
-              
-           if(isEmpty==false){
-                registerClass.assignValue(name, phone, email, password);
-             
-                registerClass.userdatasave();
-                LoginFram fram=new LoginFram();
-                fram.setVisible(true);
-                dispose();
-                        
-           }
+        if (password.length() < 4) {
+            JOptionPane.showMessageDialog(this, "Password must be at least 4 characters");
+            return;
+        }
+
+        registerClass.assignValue(name, phone, email, password);
+        registerClass.userdatasave();
+        LoginFram fram=new LoginFram();
+        fram.setVisible(true);
+        dispose();
     }//GEN-LAST:event_RegisterButtonActionPerformed
 
     private void loginBttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginBttonActionPerformed

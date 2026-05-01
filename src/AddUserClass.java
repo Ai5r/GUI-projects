@@ -1,5 +1,4 @@
 
-import java.io.FileWriter;
 import java.io.IOException;
 
 
@@ -19,11 +18,8 @@ public class AddUserClass {
 
  public void newusersaveinfile(){
         try {
-      FileWriter myWriter = new FileWriter("addnewuser.txt",true);
-      myWriter.write("\nName:"+name);
-      myWriter.write("\r\nUnique ID:"+uniqueID);
-    
-      myWriter.close();
+      AppDataStore dataStore = new AppDataStore();
+      dataStore.saveAddedUser(name, uniqueID);
       System.out.println("Matched");
     } catch (IOException e) {
       System.out.println("A Error occured");

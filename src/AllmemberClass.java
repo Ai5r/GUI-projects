@@ -1,7 +1,5 @@
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.io.IOException;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -20,16 +18,10 @@ public class AllmemberClass {
     
       public void readallmemberlist(){
        try {
-      File list = new File("memberlist.txt");
-      Scanner scanMember= new Scanner(list);
-      allmemberlist="";
-      while (scanMember.hasNext()) {
-         allmemberlist  += scanMember.nextLine()+"\n";
-        
-      }
-     System.out.println("Successfully read the list");
-       scanMember.close();
-    } catch (FileNotFoundException e) {
+      AppDataStore dataStore = new AppDataStore();
+      allmemberlist = dataStore.readDashboardAllMembers();
+      System.out.println("Successfully read the list");
+    } catch (IOException e) {
       System.out.println("An error occurred.");}
       
     }

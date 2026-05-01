@@ -1,5 +1,6 @@
 
 import java.awt.HeadlessException;
+import java.io.IOException;
 import javax.swing.JOptionPane;
 
 /*
@@ -38,6 +39,7 @@ public class LoginFram extends javax.swing.JFrame {
         passwordLabel = new javax.swing.JLabel();
         passwordTextField = new javax.swing.JTextField();
         loginButton = new javax.swing.JButton();
+        exitButton = new javax.swing.JButton();
 
         jLabel2.setText("jLabel2");
 
@@ -73,6 +75,14 @@ public class LoginFram extends javax.swing.JFrame {
             }
         });
 
+        exitButton.setBackground(new java.awt.Color(255, 255, 255));
+        exitButton.setText("Exit");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout passwordPanelLayout = new javax.swing.GroupLayout(passwordPanel);
         passwordPanel.setLayout(passwordPanelLayout);
         passwordPanelLayout.setHorizontalGroup(
@@ -81,7 +91,10 @@ public class LoginFram extends javax.swing.JFrame {
                 .addGap(62, 62, 62)
                 .addGroup(passwordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(logininyouraccountLabel)
-                    .addComponent(loginButton)
+                    .addGroup(passwordPanelLayout.createSequentialGroup()
+                        .addComponent(loginButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(exitButton))
                     .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(passwordLabel)
                     .addComponent(nameLabel)
@@ -102,7 +115,9 @@ public class LoginFram extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(passwordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addComponent(loginButton)
+                .addGroup(passwordPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(loginButton)
+                    .addComponent(exitButton))
                 .addGap(37, 37, 37))
         );
 
@@ -152,20 +167,30 @@ public class LoginFram extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Somthing Wrong with password");
         }
         
-        if (!name.equals("Shourov")) {
-            
-            JOptionPane.showMessageDialog(this, "Wrong Name");
-        
-        }else  if (!password.equals("11111")){
-            JOptionPane.showMessageDialog(this, "wrong Password");
-        }else{
-            //do login
+        if (name.isEmpty() || password.isEmpty()) {
+            return;
+        }
+
+        try {
+            AppDataStore dataStore = new AppDataStore();
+            boolean ok = dataStore.authenticate(name, password);
+            if (!ok) {
+                JOptionPane.showMessageDialog(this, "Wrong name or password");
+                return;
+            }
             HomeFram homeFrame=new HomeFram();
             homeFrame.setVisible(true);
             dispose();
-        
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Could not read user data");
         }
     }//GEN-LAST:event_loginButtonActionPerformed
+
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        RegisterFram registerFram = new RegisterFram();
+        registerFram.setVisible(true);
+        dispose();
+    }//GEN-LAST:event_exitButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,6 +228,7 @@ public class LoginFram extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton exitButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel logininyouraccountLabel;

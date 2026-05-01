@@ -240,10 +240,9 @@ public class HomeFram extends javax.swing.JFrame {
     }//GEN-LAST:event_allmemberBUttonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
-        // TODO add your handling code here:
-//        CategoryFram categoryFram=new CategoryFram();
-//        categoryFram.setVisible(true);
-//        dispose();
+        LoginFram loginFram = new LoginFram();
+        loginFram.setVisible(true);
+        dispose();
     }//GEN-LAST:event_exitButtonActionPerformed
 
     private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
